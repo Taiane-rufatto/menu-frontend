@@ -1,5 +1,53 @@
-export function SpotDialog() {
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { MapPin } from "lucide-react"
+import { useSpots } from "../hooks/use-hook";
+
+interface SpotDialogProps {
+    open: boolean;
+}
+
+export function SpotDialog({ 
+    open    
+}: SpotDialogProps) {
+
+    const { data: spots = [] } = useSpots();
+
     return (
-        <h1>Olá, <strong>Taiane</strong></h1>
+        <Dialog open={open}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Selecione a sua mesa</DialogTitle>
+                    <DialogDescription>
+                        Selecione a mesa que você está ára fazer o pedido.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <div className="min-h-0 overflow-y-auto">
+                    <div className="grid grid-cols-3 gap-3">
+
+                        {spots.map(spot => (
+                            <Button
+                                key={spot.id}
+                                variant="outline"
+                                className="h-auto min-h-20 flex-col p-4"
+                            >
+                                <MapPin className="size-6 mr-2" />
+                                { spot.name}
+                            </Button>
+                        ))}
+
+
+                    </div>
+
+                </div>
+            </DialogContent>
+        </Dialog>
     )
 }
